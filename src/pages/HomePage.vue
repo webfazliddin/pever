@@ -1,18 +1,30 @@
+<script setup lang="ts">
+import { ref } from 'vue'
+
+const showAddModal = ref(false)
+
+const addModalClick = () => {
+  toggleAddModal()
+}
+
+const toggleAddModal = () => {
+  showAddModal.value = !showAddModal.value
+}
+</script>
 <template>
   <main class="page-content">
     <div class="container">
       <div class="wrapper">
         <div>
-          <div class="wrapper__title">
-            Printers are waiting for your command
-          </div>
+          <div class="wrapper__title">Printers are waiting for your command</div>
           <div class="button">
-            <div class="buttonText">Command now</div>
+            <div class="buttonText" @click="addModalClick">Command now</div>
           </div>
         </div>
         <div class="wrapper__img">
           <img src="../assets/home-page/machine.png" />
         </div>
+        <Login :visible="showAddModal" @on-close="toggleAddModal" />
       </div>
     </div>
   </main>
@@ -35,6 +47,7 @@
   &__img {
     img {
       width: 600px;
+      height: 500px;
     }
   }
 }

@@ -1,3 +1,23 @@
+<script setup lang="ts">
+import classnames from "classnames";
+
+export interface IAppHeader {
+  elevated?: boolean;
+}
+
+withDefaults(defineProps<IAppHeader>(), {
+  elevated: false,
+});
+
+const emit = defineEmits<{
+  (e: "on-click"): void;
+}>();
+
+const handleButtonClick = () => {
+  emit("on-click");
+};
+</script>
+
 <template>
   <header
     :class="
@@ -38,24 +58,12 @@
         </div>
 
         <div :class="$style.button">
-          <div>Be a partner</div>
+          <div @click="handleButtonClick">Be a partner</div>
         </div>
       </div>
     </div>
   </header>
 </template>
-
-<script setup lang="ts">
-import classnames from "classnames";
-
-export interface IAppHeader {
-  elevated?: boolean;
-}
-
-withDefaults(defineProps<IAppHeader>(), {
-  elevated: false,
-});
-</script>
 
 <style module lang="scss">
 .header {
