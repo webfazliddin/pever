@@ -178,10 +178,22 @@
     display: grid;
     grid-template-columns: repeat(7, 1fr);
     align-items: center;
-    gap: 80px;
+    gap: 20px;
+
+    @include breakpoint('lg') {
+      gap: 40px;
+    }
+    @include breakpoint('xl') {
+      gap: 80px;
+    }
 
     div {
       cursor: pointer;
+      display: flex;
+      justify-content: center;
+      svg {
+        width: 100%;
+      }
     }
   }
 }

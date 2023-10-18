@@ -1,6 +1,5 @@
 // @ts-nocheck
 import { createRouter, createWebHistory } from "vue-router";
-import AuthLayout from "@/layouts/AuthLayout.vue";
 import MainLayout from "@/layouts/MainLayout.vue";
 
 const router = createRouter({
@@ -16,16 +15,7 @@ const router = createRouter({
         },
       ],
     },
-    {
-      path: "/auth",
-      component: AuthLayout,
-      children: [
-        {
-          path: "",
-          component: () => import("@/pages/Auth/LoginPage.vue"),
-        },
-      ],
-    },
+
   ],
 });
 

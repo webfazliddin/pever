@@ -1,65 +1,55 @@
 <script setup lang="ts">
-import classnames from "classnames";
+import classnames from 'classnames'
+import { ref } from 'vue'
+import LoginPage from '../../pages/Auth/LoginPage.vue'
+
+const dialogVisible = ref(false)
 
 export interface IAppHeader {
-  elevated?: boolean;
+  elevated?: boolean
 }
 
 withDefaults(defineProps<IAppHeader>(), {
-  elevated: false,
-});
-
-const emit = defineEmits<{
-  (e: "on-click"): void;
-}>();
-
-const handleButtonClick = () => {
-  emit("on-click");
-};
+  elevated: false
+})
 </script>
 
 <template>
   <header
     :class="
       classnames($style.header, {
-        [$style.isElevated]: elevated,
+        [$style.isElevated]: elevated
       })
     "
   >
     <div class="container">
       <div :class="$style.wrapper">
         <div :class="$style.logo">
-          <RouterLink style="text-decoration: none; color: #000" to="/">
-            Pever
-          </RouterLink>
+          <RouterLink style="text-decoration: none; color: #000" to="/"> Pever </RouterLink>
         </div>
 
         <div :class="$style.link">
           <div>
-            <RouterLink to="/" style="text-decoration: none; color: #000"
-              >How we work</RouterLink
-            >
+            <RouterLink to="/" style="text-decoration: none; color: #000">How we work</RouterLink>
           </div>
           <div>
-            <RouterLink to="/" style="text-decoration: none; color: #000"
-              >Services</RouterLink
-            >
+            <RouterLink to="/" style="text-decoration: none; color: #000">Services</RouterLink>
           </div>
           <div>
-            <RouterLink to="/" style="text-decoration: none; color: #000"
-              >Blog</RouterLink
-            >
+            <RouterLink to="/" style="text-decoration: none; color: #000">Blog</RouterLink>
           </div>
           <div>
-            <RouterLink to="/" style="text-decoration: none; color: #000"
-              >Careers</RouterLink
-            >
+            <RouterLink to="/" style="text-decoration: none; color: #000">Careers</RouterLink>
           </div>
         </div>
 
-        <div :class="$style.button">
-          <div @click="handleButtonClick">Be a partner</div>
+        <div :class="$style.button" @click="dialogVisible = true">
+          <div>Be a partner</div>
         </div>
+
+        <el-dialog v-model="dialogVisible">
+          <LoginPage />
+        </el-dialog>
       </div>
     </div>
   </header>
@@ -101,20 +91,29 @@ const handleButtonClick = () => {
   font-family: $base-font;
   display: flex;
   gap: 108px;
-}
+  display: none;
 
+  @include breakpoint('lg') {
+    display: flex;
+  }
+}
 .button {
   border-radius: 30px;
   border: 3px solid #000;
-  padding: 16px 61px;
+  padding: 16px;
   cursor: pointer;
   font-family: $base-font;
   text-align: center;
+  width: auto;
 
   &:hover {
     border: 3px solid #000;
     background: #000;
     color: $color-white;
+  }
+
+  @include breakpoint('lg') {
+    width: 25%;
   }
 }
 </style>

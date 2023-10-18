@@ -4,6 +4,9 @@ import type { App } from "vue";
 import AppHeader from "@/components/Layout/AppHeader.vue";
 import  AppFooter from "@/components/Layout/AppFooter.vue";
 
+//Base
+import BaseButton from "@/components/Base/BaseInput.vue"
+
 export default {
   install(app: App): void {
     // Configure some parameters before installing components
@@ -12,5 +15,6 @@ export default {
 
     app.component("AppHeader", AppHeader);
     app.component("AppFooter", AppFooter);
+    app.component("BaseButton", BaseButton);
   },
 };
