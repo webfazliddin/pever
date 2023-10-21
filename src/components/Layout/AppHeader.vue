@@ -1,9 +1,6 @@
 <script setup lang="ts">
 import classnames from 'classnames'
 import { ref } from 'vue'
-import LoginPage from '../../pages/Auth/LoginPage.vue'
-
-const dialogVisible = ref(false)
 
 export interface IAppHeader {
   elevated?: boolean
@@ -43,13 +40,9 @@ withDefaults(defineProps<IAppHeader>(), {
           </div>
         </div>
 
-        <div :class="$style.button" @click="dialogVisible = true">
+        <div :class="$style.button">
           <div>Be a partner</div>
         </div>
-
-        <el-dialog v-model="dialogVisible">
-          <LoginPage />
-        </el-dialog>
       </div>
     </div>
   </header>

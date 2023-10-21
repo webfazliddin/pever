@@ -1,8 +1,12 @@
 <script setup lang="ts">
+import AuthLayout from '@/layouts/AuthLayout.vue'
 import { ref } from 'vue'
-import LoginPage from './Auth/LoginPage.vue'
 
-const dialogVisible = ref(false)
+const isSHowLogin = ref(false)
+
+const showLoginPage = () => {
+  isSHowLogin.value = !isSHowLogin.value
+}
 </script>
 <template>
   <main class="page-content">
@@ -11,14 +15,9 @@ const dialogVisible = ref(false)
         <div>
           <div class="wrapper__title">Printers are waiting for your command</div>
           <div>
-            <div class="button" @click="dialogVisible = true">
-              <div class="buttonText">Command now</div>
-            </div>
-
-            <el-dialog v-model="dialogVisible">
-              <LoginPage />
-            </el-dialog>
+            <div class="button" @click="showLoginPage">Command now</div>
           </div>
+          <div v-if="isSHowLogin"><AuthLayout /></div>
         </div>
         <div class="wrapper__img">
           <img src="../assets/home-page/machine.png" />
@@ -81,9 +80,9 @@ const dialogVisible = ref(false)
 .button {
   border-radius: 30px;
   border: 3px solid #000;
-  padding: 16px !important;
   width: auto;
-  font-family: Raleway;
+  padding: 16px;
+  font-family: $base-font;
   font-weight: 400;
   text-align: center;
   background: #000;
@@ -103,9 +102,11 @@ const dialogVisible = ref(false)
 .el-dialog {
   border-radius: 16px !important;
   width: 90%;
+  padding: 0 !important;
 
   @include breakpoint('md') {
     width: 770px;
+    padding: 0 100px !important;
   }
 }
 </style>
