@@ -106,15 +106,17 @@ const handleInputChange = (e: Event) => {
   width: 100%;
   display: grid;
   grid-template-columns: 1fr auto;
-  border: 1px solid $color-dark;
+  border: 4px solid #000;
   border-radius: 25px;
   box-sizing: border-box;
   overflow: hidden;
   &:hover {
-    border: 1px solid $color-grey;
+    border: 4px solid #000;
+
   }
   &:has(input:focus) {
-    border: 1px solid $color-primary;
+    border: 4px solid #000;
+
   }
 }
 
@@ -124,14 +126,14 @@ const handleInputChange = (e: Event) => {
 .input {
   color: $color-dark;
   width: 100%;
-  height: 54px;
+  height: 70px;
   border: none;
   outline: none;
   padding: 12px 4px 12px 12px;
   letter-spacing: 0.1px;
   font-family: $base-font;
   font-weight: 400;
-  font-size: 14px;
+  font-size: 18px;
   line-height: 20px;
 
   &:disabled {

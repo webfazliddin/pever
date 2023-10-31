@@ -24,18 +24,18 @@
         <div v-show="activeTab === 'tab1'">
           <div>
             <BaseAlert
-              v-if="!!serverError.message"
+              v-if="!!serverError.error"
               class="baseAlert"
               variant="danger"
-              :message="serverError.message"
+              :message="serverError.error"
             />
           </div>
 
           <BaseAlert
-            v-if="!!serverSuccess.message"
+            v-if="!!serverSuccess.error"
             class="baseAlert"
             variant="success"
-            :message="serverSuccess.message"
+            :message="serverSuccess.error"
           />
 
           <div>
@@ -50,7 +50,7 @@
             <div class="login-link">Forgot Password</div>
           </div>
           <div class="login-btn">
-            <BaseButton class="baseButton" :loading="isLoading">Login</BaseButton>
+            <BaseButton class="baseButton">Login</BaseButton>
           </div>
         </div>
       </div>
@@ -84,7 +84,7 @@
         </div>
 
         <div class="login-btn">
-          <BaseButton class="baseButton" :loading="isLoading"> Login </BaseButton>
+          <BaseButton class="baseButton" :loading="isLoading" @on-click="login"> Login </BaseButton>
         </div>
       </div>
     </div>
@@ -92,17 +92,17 @@
       <div class="login-title">Register</div>
 
       <BaseAlert
-        v-if="!!serverError.message"
+        v-if="!!serverError.error"
         variant="danger"
         class="alert"
-        :message="serverError.message"
+        :message="serverError.error"
       />
 
       <BaseAlert
-        v-if="!!serverSuccess.message"
+        v-if="!!serverSuccess.error"
         class="alert"
         variant="success"
-        :message="serverSuccess.message"
+        :message="serverSuccess.error"
       />
 
       <div>
@@ -178,6 +178,16 @@
       <div v-show="activeTab === 'tab2'">
         <div>
           <BaseInput
+            type="username"
+            placeholder="username"
+            :value="formData.username"
+            :error="errors.username"
+            :disabled="isLoading"
+            @on-input="(value) => changeField('username', value)"
+          />
+        </div>
+        <div>
+          <BaseInput
             label="Email"
             type="email"
             placeholder="name@example.com"
@@ -204,7 +214,9 @@
         </div>
 
         <div class="login-btn">
-          <BaseButton class="baseButton" :loading="isLoading"> Register </BaseButton>
+          <BaseButton class="baseButton" :loading="isLoading" @on-click="register">
+            Register
+          </BaseButton>
         </div>
       </div>
     </div>
@@ -229,7 +241,11 @@
 
 <script setup lang="ts">
 import { ref, reactive } from 'vue'
+import { useRouter } from 'vue-router'
+import { useAuthStore } from '@/stores/authStore'
 
+const router = useRouter()
+const authStore = useAuthStore()
 const dialogVisible = ref(true)
 const activeTab = ref('tab1')
 const activeTab2 = ref('login')
@@ -247,33 +263,49 @@ export interface ILoginView {
 }
 
 const serverError = reactive({
-  message: ''
+  error: ''
 })
 const serverSuccess = reactive({
-  message: ''
+  error: ''
 })
 
 const formData = ref({
   email: '',
-  password: '',
+  username: '',
   phoneNumber: '',
   code: '',
   firstName: '',
+  password: '',
   confirmPassword: ''
 })
 
 const errors = reactive({
   email: '',
-  password: '',
+  username: '',
   phoneNumber: '',
   code: '',
   firstName: '',
   number: '',
+  password: '',
   confirmPassword: ''
 })
 
+const showPasswordClick = () => {
+  showPassword.value = !showPassword.value
+}
+const showConfirmPasswordClick = () => {
+  showConfirmPassword.value = !showConfirmPassword.value
+}
+
 const changeField = (
-  propertyName: 'email' | 'password' | 'phoneNumber' | 'code' | 'firstName' | 'confirmPassword',
+  propertyName:
+    | 'email'
+    | 'password'
+    | 'phoneNumber'
+    | 'code'
+    | 'firstName'
+    | 'confirmPassword'
+    | 'username',
   value: string
 ) => {
   formData.value[propertyName] = value
@@ -283,12 +315,40 @@ const changeField = (
   }
 }
 
-const showPasswordClick = () => {
-  showPassword.value = !showPassword.value
+const login = () => {
+  isLoading.value = true
+  authStore
+    .login({
+      email: formData.value.email,
+      password: formData.value.password
+    })
+    .then((response) => {
+      serverError.error = ''
+      serverSuccess.error = response.data.error
+      router.push('/')
+    })
+    .catch((error) => {
+      const apiError = error.response.data
+      serverError.error = apiError.error
+
+      if (apiError.errors.email) {
+        errors.email = apiError.email
+      }
+
+      if (apiError.errors.password) {
+        errors.password = apiError.password
+      }
+    })
+    .finally(() => {
+      isLoading.value = false
+    })
 }
-const showConfirmPasswordClick = () => {
-  showConfirmPassword.value = !showConfirmPassword.value
+
+const register = () => {
+  isLoading.value = true
 }
+
+
 </script>
 
 <style lang="scss">
@@ -306,7 +366,7 @@ const showConfirmPasswordClick = () => {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 10px;
-  border: 1px solid #000;
+  border: 4px solid #000;
   padding: 4px;
   border-radius: 25px;
   margin: 20px 0;
@@ -318,7 +378,7 @@ const showConfirmPasswordClick = () => {
   font-weight: 500;
   background: transparent;
   border-radius: 20px;
-  padding: 15px;
+  padding: 25px;
   border: none;
   cursor: pointer;
 }
@@ -347,6 +407,7 @@ const showConfirmPasswordClick = () => {
 }
 .baseButton {
   width: 302px;
+  height: 70px;
 }
 .login-link {
   font-family: $base-font;

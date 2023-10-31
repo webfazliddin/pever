@@ -1,7 +1,7 @@
 import axios from 'axios'
 
 const client = axios.create({
-  baseURL: 'https://pever.azurewebsites.net/',
+  baseURL: 'https://pever.azurewebsites.net',
   withCredentials: true
 })
 

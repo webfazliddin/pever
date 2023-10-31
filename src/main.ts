@@ -1,4 +1,5 @@
 import { createApp } from "vue";
+import { createPinia } from 'pinia'
 import globalComponents from "@/components/global-components";
 import "@/assets/scss/global.scss";
 
@@ -11,6 +12,7 @@ const app = createApp(App);
 
 app.use(ElementPlus);
 app.use(globalComponents);
+app.use(createPinia())
 app.use(router);
 
 app.mount("#app");

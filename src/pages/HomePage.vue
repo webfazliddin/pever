@@ -47,12 +47,10 @@ const showLoginPage = () => {
     font-size: 20px;
     margin-bottom: 50px;
 
-    @include breakpoint('lg') {
-      font-size: 50px;
-    }
-    @include breakpoint('xl') {
+    @include breakpoint('md') {
       font-size: 100px;
     }
+   
   }
 
   &__img {
@@ -71,7 +69,7 @@ const showLoginPage = () => {
       }
       @include breakpoint('xl') {
         width: 600px;
-        height: 500px;
+        height: 550px;
       }
     }
   }

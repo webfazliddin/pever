@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import classnames from 'classnames'
-import { ref } from 'vue'
 
 export interface IAppHeader {
   elevated?: boolean
